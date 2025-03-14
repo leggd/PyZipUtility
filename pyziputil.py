@@ -12,11 +12,10 @@ Verifies the user has ran the program as intended and returns .zip file name
 Returns:
     input_file (str): .zip file name if validation passes
     Boolean: False if any validation checks fail
-[10]
 """
 def input_validation():
     # Initialise/Declare Variables
-    args = sys.argv # [1]
+    args = sys.argv # 
     input_file = None
     valid_zip = False
 
@@ -26,10 +25,10 @@ def input_validation():
         print("Invalid argument amount (usage: python3 d3764716.py xxxx.zip)")
         return False
     else:
-        input_file = args[1]
+        input_file = args
     
     # Obtain list of files in current working directory
-    files_in_cwd = os.listdir() #[5]
+    files_in_cwd = os.listdir()   
     
     # Iterate through list to check if .zip file name doesn't exist
     # If file exists, assign Boolean value to valid_zip variable using is_zipfile()
@@ -37,7 +36,7 @@ def input_validation():
         print("Zip filename does not exist in current directory")
         return False
     else:
-        valid_zip = zipfile.is_zipfile(input_file) # [2]
+        valid_zip = zipfile.is_zipfile(input_file)
 
     # Stop function from proceeding if input_file is not a .zip file
     if not valid_zip:
@@ -54,7 +53,6 @@ Displays a text-based menu in terminal to direct the function of the program
 
 Returns:
     selection (int): User selected option number
-[10]
 """
 def menu():
     # Declare selection list variable containing menu options
@@ -64,7 +62,7 @@ def menu():
     # Infinite loop to obtain user input until valid selection is entered
     while True:
         print("\nMain Menu\n")
-        print("[1] View Zip File Metadata\n".center(53))
+        print(" View Zip File Metadata\n".center(53))
         print("[2] View details of Zip File Members\n".center(63))
         print("[3] Extract Zip File\n".center(47))
         print("[0] Quit\n".center(35))
@@ -88,17 +86,16 @@ Resolve and display .zip file metadata in terminal
 
 Parameter:
     input_file (str): Input file name/path
-[10]
 """
 def zip_metadata(input_file):
     # Declare path object variable
-    file_data = Path(input_file) # [3]
+    file_data = Path(input_file)
 
     # Obtain file path of zip file
-    file_path = file_data.resolve() # [3]
+    file_path = file_data.resolve()  
 
     # Obtain all file metadata values and assign to variable
-    file_details = file_data.stat() # [3]
+    file_details = file_data.stat()  
 
     # Obtain individual metadata values from file_details variable using indicies
     file_size = file_details[6]
@@ -107,9 +104,9 @@ def zip_metadata(input_file):
     file_last_accessed_date = file_details[7]
 
     # Convert Unix time variables to readable dates and reassign variables
-    file_creation_date = datetime.datetime.fromtimestamp(file_creation_date).strftime('%d-%m-%Y') # [4]
-    file_last_modified_date = datetime.datetime.fromtimestamp(file_last_modified_date).strftime('%d-%m-%Y') # [4]
-    file_last_accessed_date = datetime.datetime.fromtimestamp(file_last_accessed_date).strftime('%d-%m-%Y') # [4]
+    file_creation_date = datetime.datetime.fromtimestamp(file_creation_date).strftime('%d-%m-%Y')  
+    file_last_modified_date = datetime.datetime.fromtimestamp(file_last_modified_date).strftime('%d-%m-%Y')  
+    file_last_accessed_date = datetime.datetime.fromtimestamp(file_last_accessed_date).strftime('%d-%m-%Y')  
 
     # Print all metadata values in terminal
     print("\nZIP FILE INFORMATION\n")
@@ -126,7 +123,6 @@ Extract files from user input .zip file to extracted_files sub directory
 
 Parameter:
     input_file (str): Input file name/path
-[10]
 """
 def zip_extraction(input_file):
     # Resolve current working directory path and assign to str variable
@@ -141,7 +137,7 @@ def zip_extraction(input_file):
     extracted_files_dir = os.path.join(cwd, directory)
     
     # Iterate through working directory and store all directories as a list
-    dir_list = [x for x in p.iterdir() if x.is_dir()] # [3]
+    dir_list = [x for x in p.iterdir() if x.is_dir()]  
 
     # Convert list to string for easier interpretation
     dir_list_string = ''.join(str(dir_list))
@@ -150,19 +146,19 @@ def zip_extraction(input_file):
     # Create extracted_files directory if directory not already present
     if directory in dir_list_string:
         # Obtain list of file names in extracted_files directory
-        files_in_dir = os.listdir(extracted_files_dir) # [5]
+        files_in_dir = os.listdir(extracted_files_dir)  
 
         # Iterate through list of file names, removing a file each iteration
-        for file in files_in_dir: # [8]
-            os.remove(f'{extracted_files_dir}/{file}') # [8]
+        for file in files_in_dir:     
+            os.remove(f'{extracted_files_dir}/{file}')     
 
         # Delete the empty extracted_files directory
-        os.rmdir(extracted_files_dir) # [7]
+        os.rmdir(extracted_files_dir)    
 
         # Create empty extracted_files directory
-        os.mkdir(extracted_files_dir) # [7]
+        os.mkdir(extracted_files_dir)    
     else:
-        os.mkdir(extracted_files_dir) # [7]
+        os.mkdir(extracted_files_dir)    
 
     # Extract .zip file to empty extracted_files directory
     with zipfile.ZipFile(input_file) as archive:
@@ -184,7 +180,6 @@ Returns:
     file_name (list): All string file names on their own
     file_details_dict (dict): File name strings as keys, with each value a list
                               containing metadata values
-[10]
 """
 def file_metadata():
     # Resolve current working directory
@@ -207,7 +202,7 @@ def file_metadata():
 
     # Iterate through raw file list and collect file names
     for file in file_list_raw:
-        file_name = file.parts # [3]
+        file_name = file.parts  
         file_name_list.append(file_name[-1])
 
     # Initialise dictionary variable to store file details
@@ -237,10 +232,10 @@ def file_metadata():
 
         file_size_list.append(file_size)
 
-        file_creation_date = datetime.datetime.fromtimestamp(file_creation_time).strftime('%d-%m-%Y') #[4]
+        file_creation_date = datetime.datetime.fromtimestamp(file_creation_time).strftime('%d-%m-%Y')   
         file_creation_date_list.append(file_creation_date)
 
-        file_modified_date = datetime.datetime.fromtimestamp(file_modified_time).strftime('%d-%m-%Y') #[4]
+        file_modified_date = datetime.datetime.fromtimestamp(file_modified_time).strftime('%d-%m-%Y')   
         file_modified_date_list.append(file_modified_date)
 
     # Initialise index variable to for proper assignment during iteration
@@ -270,7 +265,6 @@ Parameters:
 
 Returns:
     table_entry (str): A concatenated string of all HTML tags and metadata values
-[10]
 """
 def table_formatter(file_name, file_size, file_creation_date, file_modified_date):
     # Declare variables with required HTML tags as strings
@@ -320,7 +314,6 @@ Creates multiple tables using table_formatter() function
 
 Returns: 
     formatted_tables (str): A string of all table elements formatted in HTML
-[10]
 """
 def create_tables():
     # Initialise list to store formatted HTML tables
@@ -328,14 +321,14 @@ def create_tables():
 
     # Obtain file names list and file details dictionary and assign to variables
     file_names = file_metadata()[0]
-    file_info = file_metadata()[1]
+    file_info = file_metadata()
 
     # Iterate through file name list obtaining file metadata values dictionary
     # Obtain singular formatted table entry by calling table_formatter()
     # Add table entry to list of table entries
     for file_name in file_names:
         file_size = str(file_info[file_name][0]) + ' bytes'
-        file_creation_date = file_info[file_name][1]
+        file_creation_date = file_info[file_name]
         file_modified_date = file_info[file_name][2]
         
         table_entry = table_formatter(file_name, file_size, 
@@ -356,7 +349,6 @@ extracted from the input .zip file and writes HTML file to current working direc
 
 Parameter:
     input_file(str): Name of the .zip file
-[10]
 """
 def generate_report(input_file):
     # Store CSS style in string variable
@@ -409,7 +401,7 @@ def generate_report(input_file):
     </style>"""
 
     # Obtain current date and time
-    now = datetime.datetime.now() # [11]
+    now = datetime.datetime.now()     
     now = str(now)
     
     # String maniupulation to reformat datetime.now() output and strip time
@@ -449,7 +441,6 @@ def generate_report(input_file):
 main() Function
 
 Contains the main loop of the program and handles user selections and behaviour
-[10]
 """
 # Initialise Boolean variable to track whether user has extracted this session
 extracted = False
@@ -486,75 +477,3 @@ def main():
          
 if __name__ in "__main__":
     main()
-
-"""
-References
-[1]
-Real Python (27/08/23) Python Command-Line Arguments.
-Available at: https://realpython.com/python-command-line-arguments/#displaying-arguments
-(Accessed: 28/09/24)
-Obtains any arguments given when ran in command line and assigns to args list variable
-
-[2]
-James C. Ahlstrom (23/01/24) zipfile — Work with ZIP archives.
-Available at: https://docs.python.org/3.11/library/zipfile.html#zipfile.is_zipfile
-(Accessed: 28/09/24)
-Boolean value to assigned variable valid_zip based on input being a .zip file or not
-
-[3]
-Barney Gale (23/01/24) pathlib — Object-oriented filesystem paths.
-Available at: https://docs.python.org/3.11/library/pathlib.html
-(Accessed: 28/09/24)
-Path object is assigned to file_data variable using zip file name as input
-File path is resolved using resolve() function and assigned to file_path variable
-File metadata is obtained using stat() function and assigned to file_details variable
-
-[4]
-Michał Niklas, Jaroslav Bezděk and user18686221 (2010,2021,2024) 
-'Converting unix timestamp string to readable date' 
-Available at: https://stackoverflow.com/a/3682808
-Variables are re-assigned as string date format
-from integer unix time using datetime fromtimestamp().strftime()
-
-[5]
-GeeksforGeeks (16/01/24) Python | os.listdir() method 
-Available at: https://www.geeksforgeeks.org/python-os-listdir-method/
-(Accessed: 28/09/24)
-Returns a list of all files/directories in the path specified in argument
-
-[6]
-GeeksforGeeks (29/05/19) Python | os.remove() method
-Available at: https://www.geeksforgeeks.org/python-os-remove-method/
-(Accessed: 01/10/24)
-
-[7]
-GeeksforGeeks (2024) Python | os.rmdir() method 
-Available at: https://www.geeksforgeeks.org/python-os-rmdir-method/
-(Accessed: 01/10/24)
-Deletes the entire directory specified in argument
-
-[8]
-sebvargo. (07/01/20) 'When using python os.rmdir, get PermissionError: 
-                      [WinError 5] Access is denied' 
-Available at: https://stackoverflow.com/a/59629733
-(Accessed: 01/10/24)
-Code snippet that iterates through the specified directory, deleting files during
-each iteration before deleted the directory itself
-
-[9]
-GeeksforGeeks (2024) Python | os.mkdir() method
-Available at: https://www.geeksforgeeks.org/python-os-mkdir-method/
-(Accessed: 01/10/24)
-
-[10]
-Parewa Labs Pvt. Ltd (2024) Python Docstrings (With Examples)
-Available at: https://www.programiz.com/python-programming/docstrings
-Accessed: 06/10/24
-
-[11]
-Programiz (2024) Python Get Current time (With Examples)
-Available at: https://www.programiz.com/python-programming/datetime/current-time
-Accessed: 06/10/24
-
-End of References
-"""
