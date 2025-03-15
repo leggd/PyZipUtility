@@ -22,7 +22,7 @@ def input_validation():
     # Check there is correct amount of command line arguments
     # If len correct, assign input_file variable to argument at index 1
     if len(args) != 2:
-        print("Invalid argument amount (usage: python3 d3764716.py xxxx.zip)")
+        print("Invalid argument amount (usage: python3 pyziputil.py xxxx.zip)")
         return False
     else:
         input_file = args
